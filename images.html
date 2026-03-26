@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>cool pictures</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+          display: block;
+          background-color: #1a1a1a;
+          font-family: Arial, sans-serif;
+          margin: 0;
+          padding: 0;
+        }
+
+        .content-wrapper {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          min-height: calc(100vh - 100px);
+          padding: 20px;
+        }
+
+        .slideshow-container {
+        max-width: 900px;
+        width: 90%;
+        position: relative;
+        background-color: #000;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      }
+
+      .slide {
+        display: none;
+        width: 100%;
+        animation: fade 1s;
+      }
+
+      .slide.active {
+        display: block;
+      }
+
+      .slide img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      @keyframes fade {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      .prev,
+      .next {
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        width: auto;
+        margin-top: -22px;
+        padding: 16px;
+        color: white;
+        background-color: rgba(0, 0, 0, 0.5);
+        font-weight: bold;
+        font-size: 24px;
+        border: none;
+        border-radius: 3px;
+        user-select: none;
+        transition: background-color 0.3s;
+      }
+
+      .prev:hover,
+      .next:hover {
+        background-color: rgba(0, 0, 0, 0.8);
+      }
+
+      .prev {
+        left: 10px;
+      }
+
+      .next {
+        right: 10px;
+      }
+
+      .slideshow-caption {
+        text-align: center;
+        color: white;
+        padding: 15px;
+        background-color: rgba(0, 0, 0, 0.7);
+        font-size: 16px;
+      }
+
+      .dots-container {
+        text-align: center;
+        padding: 15px;
+        background-color: rgba(0, 0, 0, 0.7);
+      }
+
+      .dot {
+        cursor: pointer;
+        height: 12px;
+        width: 12px;
+        margin: 0 5px;
+        background-color: #bbb;
+        border-radius: 50%;
+        display: inline-block;
+        transition: background-color 0.3s;
+      }
+
+      .dot.active {
+        background-color: #717171;
+      }
+
+      .dot:hover {
+        background-color: #999;
+      }
+
+      .header {
+        background-color: #333;
+        padding: 20px;
+        text-align: center;
+        color: white;
+      }
+
+      .header h1 {
+        margin: 0 0 15px 0;
+      }
+
+      .header a {
+        color: #4CAF50;
+        text-decoration: none;
+        font-size: 16px;
+      }
+
+      .header a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <h1>Cool Pictures Gallery</h1>
+      <a href="index.html">← Back to Home</a>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="slideshow-container">
+        <div class="slide active">
+          <img src="assets/IMG_5923.JPG" alt="Image 1" />
+        </div>
+      <div class="slide">
+        <img src="assets/IMG_5924.JPG" alt="Image 2" />
+      </div>
+      <div class="slide">
+        <img src="assets/IMG_5927.JPG" alt="Image 3" />
+      </div>
+      <div class="slide">
+        <img src="assets/IMG_5930.JPG" alt="Image 4" />
+      </div>
+      <div class="slide">
+        <img src="assets/IMG_5931.JPG" alt="Image 5" />
+      </div>
+      <div class="slide">
+        <img src="assets/IMG_5932.JPG" alt="Image 6" />
+      </div>
+      <div class="slide">
+        <img src="assets/IMG_5933.JPG" alt="Image 7" />
+      </div>
+      <div class="slide">
+        <img src="assets/IMG_5938.JPG" alt="Image 8" />
+      </div>
+      <div class="slide">
+        <img src="assets/IMG_5939.JPG" alt="Image 9" />
+      </div>
+      <div class="slide">
+        <img src="assets/IMG_5942.JPG" alt="Image 10" />
+      </div>
+      <div class="slide">
+        <img src="assets/IMG_5943.JPG" alt="Image 11" />
+      </div>
+
+      <button class="prev" onclick="changeSlide(-1)">&#10094;</button>
+      <button class="next" onclick="changeSlide(1)">&#10095;</button>
+
+      <div class="slideshow-caption">
+        <span id="slide-counter">1 / 11</span>
+      </div>
+
+      <div class="dots-container" id="dots-container"></div>
+    </div>
+
+    <script>
+      let currentSlide = 0;
+      const slides = document.querySelectorAll(".slide");
+      const totalSlides = slides.length;
+      const dotsContainer = document.getElementById("dots-container");
+
+      // Create dots
+      for (let i = 0; i < totalSlides; i++) {
+        const dot = document.createElement("span");
+        dot.className = "dot";
+        if (i === 0) dot.classList.add("active");
+        dot.onclick = () => goToSlide(i);
+        dotsContainer.appendChild(dot);
+      }
+
+      const dots = document.querySelectorAll(".dot");
+
+      function showSlide(n) {
+        slides.forEach((slide) => slide.classList.remove("active"));
+        dots.forEach((dot) => dot.classList.remove("active"));
+
+        slides[currentSlide].classList.add("active");
+        dots[currentSlide].classList.add("active");
+        document.getElementById("slide-counter").textContent =
+          currentSlide + 1 + " / " + totalSlides;
+      }
+
+      function changeSlide(n) {
+        currentSlide += n;
+        if (currentSlide >= totalSlides) {
+          currentSlide = 0;
+        } else if (currentSlide < 0) {
+          currentSlide = totalSlides - 1;
+        }
+        showSlide();
+      }
+
+      function goToSlide(n) {
+        currentSlide = n;
+        showSlide();
+      }
+
+      // Optional: Auto-advance slides every 5 seconds
+      // setInterval(() => changeSlide(1), 5000);
+    </script>
+      </div>
+    </div>
+  </body>
+</html>
